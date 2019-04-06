@@ -1,10 +1,18 @@
 #include <Wire.h>
 #include "Adafruit_TCS34725.h"
+
+//DEFINE COLOURS
+#define BLACK 0
 #define RED 1
 #define GREEN 2
 #define BLUE 3
 #define YELLOW 4
-#define UNDEFINED 0
+//DEFINE STATES
+#define stateB2R 5
+#define stateR2B 6
+#define stateB2G 7
+#define stateG2B 8
+#define stateB 9
 
 //NORMALISED RGB VALUES
 double rNorm;
@@ -22,6 +30,7 @@ double bottomB;
 //PI values (pretty sure these are built in, check that)
 double Pi = 3.1415926535897932384626433832795;
 double twoPi = 6.283185307179586476925286766559;
+
 //COLOUR SENSING VARIABLES
 int currentColour;
 int prevColour;
@@ -29,6 +38,9 @@ int outputColour;
 int lastLine;
 bool colourChange;
 int count;
+
+int state;
+bool stateRunning;
 
 //INITIALISE COLOUR SENSOR
 /* Initialise with default values (int time = 2.4ms, gain = 1x) */
@@ -39,6 +51,8 @@ Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_700MS, TCS347
 void setup(void) {
   
   colourChange = false;
+  stateRunning = false;
+  
   Serial.begin(9600);
 
   //CHECK COLOUR SENSOR IS CONNECTED
@@ -50,51 +64,26 @@ void setup(void) {
     Serial.println(" ");
     while (1);
   }
-  
+ 
 }// END OF setup()
 
 void loop(void) {
   
   int colour;
 
+  //this outputs the colour
   colour = getColour();
 
-  //ON THE BACKGROUND
-  if (colour == UNDEFINED){
-    colourChange = false;
-  }
-  //COLOUR HAS CHANGED
-  if (colour != prevColour){
-    colourChange = true;
-  }
-  //NEW LINE DETECTED
-  if ((colourChange = true) && (colour != lastLine)){
-    count ++;
-    lastLine = colour;
-    colourChange = false;
-  }
-  //GOING BACK OVER THE SAME LINE
-  if ((colourChange = true) && (colour = lastLine)){
-    count --;
-    colourChange = false;
+  if(colour == BLACK){
+    state = stateB;
   }
 
-  prevColour = colour;
+  //FININTE STATE MACHINE
+  switch(state){
+    
+  } //END OF FINITE STATE MACHINE
   
-  Serial.print("count: ");
-  Serial.print(count);
-  Serial.println(" ");
-  Serial.print("colour: ");
-  Serial.print(colour); 
-  Serial.println(" ");
-  Serial.print("prevColour: ");
-  Serial.print(prevColour);   
-  Serial.println(" ");
-  Serial.print("lastLine: ");
-  Serial.print(lastLine); 
-  Serial.println(" ");
-       
-} //END OF loop()
+} //END OF MAIN LOOP
 
 int getColour(){
     
@@ -126,12 +115,6 @@ int getColour(){
     //CONVERT H TO DEGREES
     hDegrees = h * 180 / Pi;
   }
-
-    //PRINTING FOR DEBUGGING PURPOSES
-    Serial.print("h:(degrees) ");
-    Serial.print(hDegrees);
-    Serial.println(" ");
-    Serial.println(" ");
     
     if((hDegrees >= 0) && (hDegrees < 30)){
       outputColour = RED;
@@ -145,7 +128,7 @@ int getColour(){
     if((hDegrees >= 130) && (hDegrees < 260)){
       outputColour = BLUE;
     } else
-      outputColour = UNDEFINED;
+      outputColour = BLACK;
 
     return outputColour;
       
