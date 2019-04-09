@@ -1,0 +1,52 @@
+Colins code in terms so simple even I could understand it :) 
+
+DECLARE STATES
+
+DECLARE VARIABLES
+    cc = current colour
+    ccPrev = last current colour
+    prevCol = 
+    
+    
+setup()
+    state = state0
+    prevCol = black
+    ccPrev = black
+    
+draw()
+    
+    cc = get colour function
+    
+    //START OF STATE MACHINE
+    state machine()
+    
+        when state0()
+            if cc = red and ccPrev = black //if goes onto red line
+                state = state1
+                ccPrev = red
+            if cc = green and ccPrev = black //if goes onto green line
+                state = state3
+                ccPrev = green
+                
+        when state1() //on red line
+            if cc = black and ccPrev = red //goes to black from red
+                state = state2
+                
+        when state2() //leaving red line add one to count
+            ccPrev = black
+            state = state0
+            count++
+            
+        when state3()
+            if cc = black and ccPrev = green //goes to black from green
+                state = state4
+                
+        when state4() //leaving green line add one to count
+            ccPrev = black
+            state = state0
+            count++
+            
+    //END OF STATE MACHINE
+    
+    //SET THE ccPrev FROM THIS RUN OF THE LOOP
+    ccPrev = cc

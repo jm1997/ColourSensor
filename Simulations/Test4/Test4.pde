@@ -142,11 +142,9 @@ void draw() {
   }
   
   delay(100);
-	//ccPrev = cc;
- 
+	ccPrev = cc;
 
 }
-
 
 int colorChange(int col) {
   int result = 0;
