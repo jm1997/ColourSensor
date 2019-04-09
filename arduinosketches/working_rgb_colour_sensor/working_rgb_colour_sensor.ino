@@ -8,11 +8,11 @@
 #define BLUE 3
 #define YELLOW 4
 //DEFINE STATES
-#define stateB2R 5
-#define stateR2B 6
-#define stateB2G 7
-#define stateG2B 8
-#define stateB 9
+#define state0 5
+#define state1 6
+#define state2 7
+#define state3 8
+#define state4 9
 
 //NORMALISED RGB VALUES
 double rNorm;
@@ -39,7 +39,7 @@ int lastLine;
 bool colourChange;
 int count;
 
-int state;
+int state;C:\Users\Jess\Documents\GitHub\ColourSensor\Simulations
 bool stateRunning;
 
 //INITIALISE COLOUR SENSOR
@@ -52,6 +52,9 @@ void setup(void) {
   
   colourChange = false;
   stateRunning = false;
+
+  //set state to state0 which is when the robot goes from a line onto the background
+  state = state0;
   
   Serial.begin(9600);
 
@@ -71,12 +74,8 @@ void loop(void) {
   
   int colour;
 
-  //this outputs the colour
+  //this funs the get colour function and recieves the outputted colour
   colour = getColour();
-
-  if(colour == BLACK){
-    state = stateB;
-  }
 
   //FININTE STATE MACHINE
   switch(state){
