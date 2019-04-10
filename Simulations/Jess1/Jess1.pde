@@ -21,7 +21,6 @@ int COLOUR_BLUE = 12;
 int COLOUR_YELLOW = 13;
 int COLOUR_BLACK = 14;
 
-
 int state;
 int count;
 //CURRENT COLOUR

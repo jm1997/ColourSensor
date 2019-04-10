@@ -1,3 +1,10 @@
+// =====================================================
+//
+// Colour Sensing Robot for Dissertation Project
+// (Jessica Mason - 16016599)
+//
+// =====================================================
+
 #include <Wire.h>
 #include "Adafruit_TCS34725.h"
 
@@ -35,8 +42,8 @@ double twoPi = 6.283185307179586476925286766559;
 int currentColour;
 int prevColour;
 int outputColour;
-int lastLine;
-bool colourChange;
+
+int state;
 int count;
 
 int state;C:\Users\Jess\Documents\GitHub\ColourSensor\Simulations
@@ -55,6 +62,8 @@ void setup(void) {
 
   //set state to state0 which is when the robot goes from a line onto the background
   state = state0;
+  count = 0;
+  prevColour = BLACK;
   
   Serial.begin(9600);
 
@@ -71,11 +80,19 @@ void setup(void) {
 }// END OF setup()
 
 void loop(void) {
-  
-  int colour;
+ 
 
-  //this funs the get colour function and recieves the outputted colour
-  colour = getColour();
+  //this runs the get colour function and recieves the outputted colour
+  currentColour = getColour();
+  Serial.print("currentColour: ");
+  Serial.print(currentColour);
+  Serial.println("");
+  Serial.print("prevColour: ");
+  Serial.print(prevColour);
+  Serial.println("");
+  Serial.print("state: ");
+  Serial.print(state);
+  Serial.println("");
 
   //FININTE STATE MACHINE
   switch(state){
