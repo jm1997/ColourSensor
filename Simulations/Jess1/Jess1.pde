@@ -70,6 +70,7 @@ void draw() {
 
   //PUT STATES HERE
   switch(state){
+    
     case STATE_0:
       if((currentColour == COLOUR_RED) && (prevColour == COLOUR_BLACK)){
         state = STATE_1;
