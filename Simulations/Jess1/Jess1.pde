@@ -13,6 +13,8 @@ final int STATE_1 = 1;
 final int STATE_2 = 2;
 final int STATE_3 = 3;
 final int STATE_4 = 4;
+final int STATE_5 = 5;
+final int STATE_6 = 6;
 
 //DECLARE COLOURS
 int COLOUR_RED = 10;
@@ -71,11 +73,14 @@ void draw() {
   //PUT STATES HERE
   switch(state){
     
+    //BACKGROUND behaviour
     case STATE_0:
+      //gone onto red line
       if((currentColour == COLOUR_RED) && (prevColour == COLOUR_BLACK)){
         state = STATE_1;
         prevColour = COLOUR_RED;
       }
+      //gone onto green line
       if((currentColour == COLOUR_GREEN) && (prevColour == COLOUR_BLACK)){
          state = STATE_3;
          prevColour = COLOUR_GREEN;
@@ -83,13 +88,20 @@ void draw() {
       
     break;
      
+    //RED line behaviour
     case STATE_1:
+      //going off red line
       if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_RED)){
          state = STATE_2;
+      }
+      //going back over red line
+      if((currentColour == COLOUR_RED) && (prevColour == COLOUR_RED)){
+        
       }
       
     break;
     
+    //going off red line, add one to count
     case STATE_2:
        prevColour = COLOUR_BLACK;
        state = STATE_0;
@@ -108,6 +120,16 @@ void draw() {
       prevColour = COLOUR_BLACK;
       state = STATE_0;
       count++;
+    
+    break;
+    
+    case STATE_5:
+    
+    
+    break;
+    
+    case STATE_6:
+    
     
     break;
       
