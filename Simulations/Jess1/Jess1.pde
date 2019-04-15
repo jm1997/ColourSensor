@@ -138,12 +138,14 @@ void draw() {
       
     //FALLING EDGE NEW LINE
     case STATE_3:
+    //COMING OFF A RED LINE
     if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_RED)){
       countX++;
       lastLine = COLOUR_RED;
       prevColour = COLOUR_BLACK;
       state = STATE_0;
     }
+    //COMING OFF A GREEN LINE
     if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_GREEN)){
       countX++;
       lastLine = COLOUR_GREEN;
@@ -155,14 +157,16 @@ void draw() {
     
     //FALLING EDGE SAME LINE AGAIN (GOING BACK ON ITSELF
     case STATE_4:
+    //GOING BACK OVER A RED LINE
     if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_RED)){
       countX--;
       lastLine = COLOUR_RED;
       state = STATE_0;
     }
+    //GOING BACK OVER A GREEN LINE
     if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_GREEN)){
       countX--;
-      lastLine = COLOUR_RED;
+      lastLine = COLOUR_GREEN;
       state = STATE_0;
     }
     
