@@ -24,7 +24,8 @@ int COLOUR_YELLOW = 13;
 int COLOUR_BLACK = 14;
 
 int state;
-int count;
+int countX;
+int lastLine;
 //CURRENT COLOUR
 int currentColour;
 //LAST COLOUR
@@ -60,7 +61,7 @@ void setup() {
   //SET STATE TO STARTING STATE OF BEING ON THE BACKGROUND (GOING FROM LINE TO BACKGROUND)
   state = STATE_0;
   //SET COUNT TO 0 TO START WITH
-  count = 0;
+  countX = 0;
   
 } //END OF SETUP
 
@@ -85,6 +86,16 @@ void draw() {
          state = STATE_3;
          prevColour = COLOUR_GREEN;
       }
+      if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_GREEN)){
+        state = STATE_0;
+        prevColour = COLOUR_BLACK;
+        countX--;
+      }
+      if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_RED)){
+        state = STATE_0;
+        prevColour = COLOUR_BLACK;
+        countX--;
+      }
       
     break;
      
@@ -93,51 +104,65 @@ void draw() {
       //going off red line
       if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_RED)){
          state = STATE_2;
+         prevColour = COLOUR_BLACK;
       }
       //going back over red line
       if((currentColour == COLOUR_RED) && (prevColour == COLOUR_RED)){
-        
+         state = STATE_5;
+         prevColour = COLOUR_RED;
       }
       
     break;
     
     //going off red line, add one to count
     case STATE_2:
-       prevColour = COLOUR_BLACK;
        state = STATE_0;
-       count++;
+       prevColour = COLOUR_BLACK;
+       countX++;
     
     break;
       
     case STATE_3:
       if((currentColour == COLOUR_BLACK) && (prevColour == COLOUR_GREEN)){
         state = STATE_4;
+        prevColour = COLOUR_BLACK;
+      }
+     if((currentColour == COLOUR_GREEN) && (prevColour == COLOUR_GREEN)){
+        state = STATE_6;
+        prevColour = COLOUR_GREEN;
       }
     
     break;
     
     case STATE_4:
-      prevColour = COLOUR_BLACK;
       state = STATE_0;
-      count++;
+      prevColour = COLOUR_BLACK;
+      countX++;
     
     break;
     
+    //GOING BACK OVER A RED LINE
     case STATE_5:
-    
+      if((currentColour == COLOUR_RED) && (prevColour == COLOUR_RED)){
+         state = STATE_0;
+      }
+      
     
     break;
     
+    //GOING BACK OVER A GREEN LINE
     case STATE_6:
-    
-    
+      if((currentColour == COLOUR_GREEN) && (prevColour == COLOUR_GREEN)){
+        state = STATE_0;
+      }
+      
     break;
       
   }//END OF switch(state)
   
   delay(100);
   //SET PREVIOUSLY READ COLOUR TO prevColour
-	prevColour = currentColour;
+	//prevColour = currentColour;
 
 }
 
@@ -160,16 +185,12 @@ void printData(int state, int currentColour, int prevColour) {
  if(prevColour == COLOUR_RED)print(" prevColour RED ");
  if(prevColour == COLOUR_GREEN)print(" prevColour GREEN ");
  if(prevColour == COLOUR_BLACK)print(" prevColour BLACK "); 
- //print("CountRED = "+countRed);
- //print(" CountGRN = "+countGreen);
- println(" Count = "+count);
+ println(" Count X = "+countX);
 }
 
 void mouseClicked() {
   //RESET EVERYTHING
   state = STATE_0;
   prevColour = COLOUR_BLACK;  
-  //countRed = 0;
-  //countGreen = 0;
-  count = 0;
+  countX = 0;
 }
