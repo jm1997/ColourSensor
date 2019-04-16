@@ -118,7 +118,6 @@ void draw() {
         state = STATE_3;
       }
 
-    
     break;
       
     //FALLING EDGE NEW LINE
