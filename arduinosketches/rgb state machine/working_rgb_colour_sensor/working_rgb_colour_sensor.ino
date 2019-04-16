@@ -186,7 +186,7 @@ void loop(void) {
     //COMING OFF A YELLOW LINE
     if((currentColour == COLOUR_BLACK) && (prevColourY == COLOUR_YELLOW)){
       countY++;
-      pathX[indexY] = COLOUR_YELLOW;
+      pathY[indexY] = COLOUR_YELLOW;
       indexY++;
       prevColourY = COLOUR_BLACK;
       state = STATE_0;
@@ -194,7 +194,7 @@ void loop(void) {
     //COMING OFF A BLUE LINE
     if((currentColour == COLOUR_BLACK) && (prevColourY == COLOUR_BLUE)){
       countY++;
-      pathX[indexY] = COLOUR_BLUE;
+      pathY[indexY] = COLOUR_BLUE;
       indexY++;
       prevColourY = COLOUR_BLACK;
       state = STATE_0;
@@ -309,7 +309,6 @@ int getColour(){
       detected = false;
     }
       
-
     return outputColour;
       
   } //END OF getColour()
