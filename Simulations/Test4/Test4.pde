@@ -116,8 +116,7 @@ void draw() {
 
   case STATE_3: // Rising edge GREEN
     if((cc == COLOR_BACKG) && (ccPrev == COLOR_GREEN)) {
-      s
-      tate = STATE_4;
+      state = STATE_4;
     }
   break;
   
