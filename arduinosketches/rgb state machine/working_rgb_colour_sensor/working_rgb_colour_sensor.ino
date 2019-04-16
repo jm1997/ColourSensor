@@ -54,6 +54,7 @@ int state;
 int countX;
 //COUNT ON Y AXIS
 int countY;
+bool detected;
 
 //ARRAYS
 int pathX[10];
@@ -75,6 +76,7 @@ void setup(void) {
   countY = 0;
   prevColourX = COLOUR_BLACK;
   prevColourY = COLOUR_BLACK;
+  detected = false;
   
   Serial.begin(9600);
 
@@ -195,7 +197,7 @@ void loop(void) {
       pathX[indexY] = COLOUR_BLUE;
       indexY++;
       prevColourY = COLOUR_BLACK;
-      state = STATE_0;2
+      state = STATE_0;
     }
           
     break;
@@ -270,30 +272,41 @@ int getColour(){
     hDegrees = h * 180 / Pi;
   }
     
-    if((hDegrees >= 0) && (hDegrees < 25)){
+    if((hDegrees>=330) && (hDegrees <= 0)){
       outputColour = COLOUR_RED;
-      Serial.print("outputColour: RED");
+      Serial.print("RED");
       Serial.println("");
-    } else
-    if((hDegrees >= 25) && (hDegrees < 35)){
-      outputColour = COLOUR_BLACK;
-      Serial.print("outputColour: BLACK");
+      detected = true;
+    }
+    if((hDegrees >= 0) && (hDegrees <= 25)){
+      outputColour = COLOUR_RED;
+      Serial.print("RED");
       Serial.println("");
+      detected = true;
     } else
-    if((hDegrees >= 65) && (hDegrees < 130)){
-      outputColour = COLOUR_GREEN;
-      Serial.print("outputColour: GREEN");
-      Serial.println("");
-    } else
-    if((hDegrees >= 130) && (hDegrees < 260)){
-      outputColour = COLOUR_BLUE;
-      Serial.print("outputColour: BLUE");
-      Serial.println("");
-    } else
-    if((hDegrees >= 35) && (hDegrees < 65)){
+    if((hDegrees >= 40) && (hDegrees <= 70)){
       outputColour = COLOUR_YELLOW;
-      Serial.print("outputColour: YELLOW");
+      Serial.print("YELLOW");
       Serial.println("");
+      detected = true;
+    } else
+    if((hDegrees >= 100) && (hDegrees <= 130)){
+      outputColour = COLOUR_GREEN;
+      Serial.print("GREEN");
+      Serial.println("");
+      detected = true;
+    } else
+    if((hDegrees >= 180) && (hDegrees <= 250)){
+      outputColour = COLOUR_BLUE;
+      Serial.print("BLUE");
+      Serial.println("");
+      detected = true;
+    } else
+    if(detected = true){
+      outputColour = COLOUR_BLACK;
+      Serial.print("BLACK");
+      Serial.println("");
+      detected = false;
     }
       
 

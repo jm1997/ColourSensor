@@ -66,7 +66,7 @@ void setup(void) {
   countX = 0;
   prevColour = COLOUR_BLACK;
   
-  Serial.begin(9600);
+  Serial.begin(57600);
 
   //CHECK COLOUR SENSOR IS CONNECTED
   if (tcs.begin()) {

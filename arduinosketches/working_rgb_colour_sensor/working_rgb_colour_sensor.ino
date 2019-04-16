@@ -45,9 +45,9 @@ int outputColour;
 
 int state;
 int count;
+bool detected;
 
-int state;C:\Users\Jess\Documents\GitHub\ColourSensor\Simulations
-bool stateRunning;
+
 
 //INITIALISE COLOUR SENSOR
 /* Initialise with default values (int time = 2.4ms, gain = 1x) */
@@ -56,10 +56,10 @@ bool stateRunning;
 Adafruit_TCS34725 tcs = Adafruit_TCS34725(TCS34725_INTEGRATIONTIME_700MS, TCS34725_GAIN_1X);
 
 void setup(void) {
-  
-  colourChange = false;
-  stateRunning = false;
 
+
+  detected = false;
+  
   //set state to state0 which is when the robot goes from a line onto the background
   state = state0;
   count = 0;
@@ -84,15 +84,6 @@ void loop(void) {
 
   //this runs the get colour function and recieves the outputted colour
   currentColour = getColour();
-  Serial.print("currentColour: ");
-  Serial.print(currentColour);
-  Serial.println("");
-  Serial.print("prevColour: ");
-  Serial.print(prevColour);
-  Serial.println("");
-  Serial.print("state: ");
-  Serial.print(state);
-  Serial.println("");
 
   //FININTE STATE MACHINE
   switch(state){
@@ -102,7 +93,8 @@ void loop(void) {
 } //END OF MAIN LOOP
 
 int getColour(){
-    
+
+  
   uint16_t r, g, b, c, colorTemp, lux;
   
   tcs.getRawData(&r, &g, &b, &c);
@@ -131,21 +123,45 @@ int getColour(){
     //CONVERT H TO DEGREES
     hDegrees = h * 180 / Pi;
   }
-    
-    if((hDegrees >= 0) && (hDegrees < 30)){
+    if((hDegrees>=330) && (hDegrees <= 0)){
       outputColour = RED;
+      Serial.print("RED");
+      Serial.println("");
+      detected = true;
+    }
+    if((hDegrees >= 0) && (hDegrees <= 25)){
+      outputColour = RED;
+      Serial.print("RED");
+      Serial.println("");
+      detected = true;
     } else
-    if((hDegrees >= 30) && (hDegrees < 65)){
+    if((hDegrees >= 40) && (hDegrees <= 70)){
       outputColour = YELLOW;
+      Serial.print("YELLOW");
+      Serial.println("");
+      detected = true;
     } else
-    if((hDegrees >= 65) && (hDegrees < 130)){
+    if((hDegrees >= 100) && (hDegrees <= 130)){
       outputColour = GREEN;
+      Serial.print("GREEN");
+      Serial.println("");
+      detected = true;
     } else
-    if((hDegrees >= 130) && (hDegrees < 260)){
+    if((hDegrees >= 180) && (hDegrees <= 250)){
       outputColour = BLUE;
+      Serial.print("BLUE");
+      Serial.println("");
+      detected = true;
     } else
+    if(detected = true){
       outputColour = BLACK;
-
+      Serial.print("BLACK");
+      Serial.println("");
+      detected = false;
+    }
+      
+    Serial.print(hDegrees);
+    Serial.println("");
     return outputColour;
       
   } //END OF getColour()
